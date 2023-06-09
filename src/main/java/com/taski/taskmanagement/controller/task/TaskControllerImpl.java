@@ -30,7 +30,7 @@ public class TaskControllerImpl {
                 taskDto.getPriority(),
                 taskDto.getDueDate(),
                 taskDto.getStatus(),
-                taskDto.getCategoryId(), taskDto.getAssignee(), taskDto.getProject());
+                taskDto.getCategoryId(), taskDto.getAssignee(), taskDto.getProject(), taskDto.getCreatedBy());
 
         taskRepository.save(taskEntity);
         return ResponseEntity.ok(taskEntity);

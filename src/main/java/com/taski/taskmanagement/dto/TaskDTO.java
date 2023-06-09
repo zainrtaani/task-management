@@ -26,6 +26,9 @@ public class TaskDTO {
 
     @JsonDeserialize(using = ProjectDeserializer.class)
     private Project project;
+
+    @JsonDeserialize(using = UserDeserializer.class)
+    private User createdBy;
     public TaskDTO(String title,
                    String description,
                    int priority,
@@ -73,5 +76,9 @@ public class TaskDTO {
 
     public Project getProject() {
         return this.project;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
     }
 }

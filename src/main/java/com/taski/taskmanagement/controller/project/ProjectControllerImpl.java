@@ -2,8 +2,10 @@ package com.taski.taskmanagement.controller.project;
 
 import com.taski.taskmanagement.controller.ProjectController;
 import com.taski.taskmanagement.entity.Project;
+import com.taski.taskmanagement.exception.EntityNotFoundException;
 import com.taski.taskmanagement.model.ProjectModel;
 import com.taski.taskmanagement.repo.ProjectRepository;
+import com.taski.taskmanagement.repo.TaskRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,11 @@ public class ProjectControllerImpl implements ProjectController {
 
 
     private final ProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
 
-    public ProjectControllerImpl(ProjectRepository projectRepository){
+    public ProjectControllerImpl(ProjectRepository projectRepository, TaskRepository taskRepository){
         this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
     }
 
     @Override
@@ -40,7 +44,24 @@ public class ProjectControllerImpl implements ProjectController {
     @Override
     @GetMapping("/projects")
     public List<Project> findAll(){
-        return projectRepository.findAll();
+        List<Project> projects = projectRepository.findAll();
+        projects.forEach(project -> project.setTasks(taskRepository.findByProject(project)));
+
+        return projects;
+    }
+
+
+
+    @Override
+    @GetMapping("/project/{id}")
+    public ResponseEntity<Project> findProjectById(@PathVariable("id") String id){
+
+        Project projectResponse = projectRepository.findById(id).map(project -> {
+            project.setTasks(taskRepository.findByProject(project));
+            return project;
+        }).orElseThrow(() -> new EntityNotFoundException(Project.class));
+
+        return ResponseEntity.ok(projectResponse);
     }
 
 

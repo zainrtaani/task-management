@@ -1,9 +1,11 @@
 package com.taski.taskmanagement.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Document
 public class Project {
@@ -16,6 +18,8 @@ public class Project {
     private Date endDate;
     private String ownerId;
 
+    @DBRef
+    public List<Task> tasks;
 
     public String getId() {
         return id;
@@ -59,5 +63,13 @@ public class Project {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

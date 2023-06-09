@@ -1,6 +1,7 @@
 package com.taski.taskmanagement.repo;
 
 
+import com.taski.taskmanagement.entity.Project;
 import com.taski.taskmanagement.entity.Task;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,5 +12,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends MongoRepository<Task, String> {
 
-    
+
+    List<Task> findByProject(Project project);
 }

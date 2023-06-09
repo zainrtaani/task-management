@@ -33,13 +33,15 @@ public class Task {
     @DBRef
     private Project project;
 
+    @DBRef
+    private User createdBy;
     public Task(String title,
                 String description,
                 int priority,
                 Date dueDate,
                 Status status,
                 String categoryId,
-                User assignee, Project project) {
+                User assignee, Project project, User createdBy) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -48,6 +50,7 @@ public class Task {
         this.status = status;
         this.categoryId = categoryId;
         this.assignee = assignee;
+        this.createdBy = createdBy;
     }
 
 
